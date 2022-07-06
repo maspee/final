@@ -17,14 +17,14 @@ def recetas(request):
     print(recetas)
     return render(request, 'crud/index.html', {'recetas': recetas})
 
-def crear(request, LoginRequiredMixin):
+def crear(request):
     formulario = RecetaForm(request.POST or None, request.FILES or None)
     if formulario.is_valid():
         formulario.save()
         return redirect('recetas')
     return render(request, 'crud/crear.html', {'formulario': formulario})
 
-def editar(request, id, LoginRequiredMixin): 
+def editar(request, id): 
     receta = Receta.objects.get(id=id)
     formulario = RecetaForm(request.POST or None, request.FILES or None, instance=receta)
     if formulario.is_valid() and request.POST:
@@ -32,7 +32,7 @@ def editar(request, id, LoginRequiredMixin):
         return redirect('recetas')
     return render(request, 'crud/editar.html', {'formulario': formulario})
 
-def eliminar(request, id, LoginRequiredMixin):
+def eliminar(request, id):
     receta = Receta.objects.get(id=id)
     receta.delete()
     return redirect('recetas')
